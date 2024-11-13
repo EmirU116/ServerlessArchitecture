@@ -1,0 +1,33 @@
+name: CICD for frontend
+
+on:
+    push:
+        branches:
+           - main
+jobs:
+    # Build Job
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # checks out the code from repo
+            - name: Checkout Code
+              uses: actions/checkout@v2
+            # setting up language env
+            - name: Install Node
+              uses: actions/setup-node@v3
+              with:
+                node-version: 22.x      # Specifying code version compatibility with the projct 
+            # Installing dependencies 
+            - name: Install dependencies
+              run: npm install
+
+            # Running code test 
+            - name: running tests
+              run: npm test
+              env:
+                CI: true    # stops the build if something fails or gets error
+
+            # running the build command ( current, their is nothing to build on )
+            - name: Run build
+              run: npm run build
+    
